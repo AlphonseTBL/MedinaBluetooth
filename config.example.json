@@ -1,0 +1,19 @@
+{
+    "appearance_mode": "dark",
+    "color_theme": "blue",
+    "window_title": "Monitor Bluetooth",
+    "window_width": 900,
+    "window_height": 600,
+    "auto_reconnect": true,
+    "reconnect_interval": 5,
+    "scan_timeout": 10,
+    "data_buffer_size": 100,
+    "update_interval": 100,
+    "save_data": false,
+    "data_file": "bluetooth_data.csv",
+    "device_name_filter": null,
+    "device_address": null,
+    "data_format": "text",
+    "data_separator": "\n",
+    "encoding": "utf-8"
+}

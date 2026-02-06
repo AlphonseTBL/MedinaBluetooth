@@ -1,0 +1,49 @@
+2026-02-06 11:07:37,422 - __main__ - INFO - Iniciando aplicación Bluetooth
+2026-02-06 11:07:37,425 - src.bluetooth_manager - INFO - BluetoothManager inicializado
+2026-02-06 11:07:37,425 - src.data_handler - INFO - DataHandler inicializado con buffer de 100
+2026-02-06 11:07:38,987 - src.ui.main_window - INFO - Ventana principal creada
+2026-02-06 11:07:38,988 - __main__ - INFO - Iniciando interfaz gráfica
+2026-02-06 11:07:50,286 - src.ui.main_window - INFO - Iniciando escaneo de dispositivos
+2026-02-06 11:07:50,298 - src.bluetooth_manager - INFO - Escaneando dispositivos durante 10 segundos...
+2026-02-06 11:08:03,153 - src.bluetooth_manager - INFO - Encontrados 2 dispositivos
+2026-02-06 11:08:03,159 - src.ui.main_window - INFO - Escaneo completado: 2 dispositivos encontrados
+2026-02-06 11:12:12,058 - src.ui.main_window - INFO - Iniciando escaneo de dispositivos
+2026-02-06 11:12:12,068 - src.bluetooth_manager - INFO - Escaneando dispositivos durante 10 segundos...
+2026-02-06 11:12:24,878 - src.bluetooth_manager - INFO - Encontrados 5 dispositivos
+2026-02-06 11:12:24,893 - src.ui.main_window - INFO - Escaneo completado: 5 dispositivos encontrados
+2026-02-06 11:12:38,908 - src.ui.main_window - INFO - Intentando conectar a WH-CH520
+2026-02-06 11:12:38,908 - src.bluetooth_manager - INFO - Intentando conectar a 30:53:C1:B3:35:38:1
+2026-02-06 11:12:38,912 - src.bluetooth_manager - ERROR - Error al conectar: argument 2 (impossible<bad format char>)
+2026-02-06 11:12:46,304 - src.ui.main_window - INFO - Intentando conectar a WH-CH520
+2026-02-06 11:12:46,304 - src.bluetooth_manager - INFO - Intentando conectar a 30:53:C1:B3:35:38:1
+2026-02-06 11:12:46,305 - src.bluetooth_manager - ERROR - Error al conectar: argument 2 (impossible<bad format char>)
+2026-02-06 11:12:59,239 - src.ui.main_window - INFO - Iniciando escaneo de dispositivos
+2026-02-06 11:12:59,251 - src.bluetooth_manager - INFO - Escaneando dispositivos durante 10 segundos...
+2026-02-06 11:13:12,126 - src.bluetooth_manager - INFO - Encontrados 5 dispositivos
+2026-02-06 11:13:12,147 - src.ui.main_window - INFO - Escaneo completado: 5 dispositivos encontrados
+2026-02-06 11:13:26,060 - src.ui.main_window - INFO - Iniciando escaneo de dispositivos
+2026-02-06 11:13:26,068 - src.bluetooth_manager - INFO - Escaneando dispositivos durante 10 segundos...
+2026-02-06 11:13:38,925 - src.bluetooth_manager - INFO - Encontrados 3 dispositivos
+2026-02-06 11:13:38,932 - src.ui.main_window - INFO - Escaneo completado: 3 dispositivos encontrados
+2026-02-06 11:13:41,472 - src.ui.main_window - INFO - Intentando conectar a Redmi Buds 5 Pro
+2026-02-06 11:13:41,473 - src.bluetooth_manager - INFO - Intentando conectar a 48:73:CB:D4:BF:64:1
+2026-02-06 11:13:41,473 - src.bluetooth_manager - ERROR - Error al conectar: argument 2 (impossible<bad format char>)
+2026-02-06 11:13:47,713 - src.ui.main_window - INFO - Cerrando aplicación desde UI
+2026-02-06 11:13:48,673 - __main__ - INFO - Cerrando aplicación
+2026-02-06 11:13:59,078 - __main__ - INFO - Iniciando aplicación Bluetooth
+2026-02-06 11:13:59,081 - src.bluetooth_manager - INFO - BluetoothManager inicializado
+2026-02-06 11:13:59,082 - src.data_handler - INFO - DataHandler inicializado con buffer de 100
+2026-02-06 11:13:59,459 - src.ui.main_window - INFO - Ventana principal creada
+2026-02-06 11:13:59,460 - __main__ - INFO - Iniciando interfaz gráfica
+2026-02-06 11:14:00,770 - src.ui.main_window - INFO - Iniciando escaneo de dispositivos
+2026-02-06 11:14:00,782 - src.bluetooth_manager - INFO - Escaneando dispositivos durante 10 segundos...
+2026-02-06 11:14:13,596 - src.bluetooth_manager - INFO - Encontrados 3 dispositivos
+2026-02-06 11:14:13,602 - src.ui.main_window - INFO - Escaneo completado: 3 dispositivos encontrados
+2026-02-06 11:14:17,826 - src.ui.main_window - INFO - Intentando conectar a Redmi Buds 5 Pro
+2026-02-06 11:14:17,827 - src.bluetooth_manager - INFO - Intentando conectar a 48:73:CB:D4:BF:64:1
+2026-02-06 11:14:17,830 - src.bluetooth_manager - ERROR - Error al conectar: argument 2 (impossible<bad format char>)
+2026-02-06 11:14:34,410 - src.ui.main_window - INFO - Intentando conectar a Redmi Buds 5 Pro
+2026-02-06 11:14:34,411 - src.bluetooth_manager - INFO - Intentando conectar a 48:73:CB:D4:BF:64:1
+2026-02-06 11:14:34,412 - src.bluetooth_manager - ERROR - Error al conectar: argument 2 (impossible<bad format char>)
+2026-02-06 11:14:42,875 - src.ui.main_window - INFO - Cerrando aplicación desde UI
+2026-02-06 11:14:43,767 - __main__ - INFO - Cerrando aplicación

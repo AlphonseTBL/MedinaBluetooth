@@ -1,0 +1,11 @@
+# Dependencias principales de la aplicación
+# Instalar con: pip install -r requirements.txt
+
+# Interfaz gráfica moderna
+customtkinter>=5.2.0
+
+# Comunicación Bluetooth
+pybluez>=0.23
+
+# Utilidades adicionales (opcional)
+# pyserial>=3.5  # Si necesitas comunicación serial además de Bluetooth
