@@ -1,26 +1,20 @@
 """
-Ventana principal de la interfaz gráfica.
-Utiliza CustomTkinter para una apariencia moderna y profesional.
+Ventana principal de la aplicación
 """
 
 import customtkinter as ctk
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 import logging
-from typing import Dict, Any
-from datetime import datetime
+import threading
 
 logger = logging.getLogger(__name__)
 
 
 class MainWindow:
     """
-    Ventana principal de la aplicación.
+    Ventana principal de la aplicación Bluetooth.
     
-    Proporciona una interfaz gráfica intuitiva para:
-    - Conectar/desconectar dispositivos Bluetooth
-    - Visualizar datos en tiempo real
-    - Monitorear el estado de la conexión
-    - Exportar datos recolectados
+    Maneja toda la interfaz gráfica y la interacción con el usuario.
     """
     
     def __init__(self, bluetooth_manager, data_handler, config):
@@ -28,376 +22,659 @@ class MainWindow:
         Inicializa la ventana principal.
         
         Args:
-            bluetooth_manager: Instancia del gestor Bluetooth
-            data_handler: Instancia del procesador de datos
+            bluetooth_manager: Instancia del gestor de Bluetooth
+            data_handler: Instancia del manejador de datos
             config: Configuración de la aplicación
         """
         self.bt_manager = bluetooth_manager
         self.data_handler = data_handler
         self.config = config
         
-        # Crear ventana principal
-        self.window = ctk.CTk()
-        self.window.title(config.get('window_title', 'Monitor Bluetooth'))
-        self.window.geometry(
-            f"{config.get('window_width', 900)}x{config.get('window_height', 600)}"
-        )
-        
-        # Configurar el cierre de ventana
-        self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
-        
-        # Variables de UI
+        # Lista de dispositivos encontrados
         self.devices_list = []
         self.selected_device = None
         
-        # Construir la interfaz
-        self._build_ui()
+        # Crear ventana principal
+        self.root = ctk.CTk()
+        self.root.title("Aplicación Bluetooth - Selector de Dispositivos")
+        self.root.geometry(self.config.get('window_size', '900x700'))
+        
+        # Configurar cierre de ventana
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
+        
+        # Crear interfaz
+        self._create_widgets()
         
         logger.info("Ventana principal creada")
     
-    def _build_ui(self):
-        """Construye todos los elementos de la interfaz."""
-        # Configurar grid layout
-        self.window.grid_columnconfigure(1, weight=1)
-        self.window.grid_rowconfigure(0, weight=1)
+    def _create_widgets(self):
+        """Crea todos los widgets de la interfaz."""
         
-        # Panel lateral izquierdo (conexión)
-        self._create_connection_panel()
-        
-        # Panel principal derecho (datos)
-        self._create_data_panel()
-        
-        # Barra de estado inferior
-        self._create_status_bar()
-    
-    def _create_connection_panel(self):
-        """Crea el panel lateral de conexión."""
-        # Frame contenedor
-        self.connection_frame = ctk.CTkFrame(self.window, width=300, corner_radius=0)
-        self.connection_frame.grid(row=0, column=0, sticky="nsew", padx=0, pady=0)
-        self.connection_frame.grid_rowconfigure(4, weight=1)
+        # ========== FRAME SUPERIOR: CONEXIÓN Y ESCANEO ==========
+        connection_frame = ctk.CTkFrame(self.root)
+        connection_frame.pack(fill="x", padx=10, pady=10)
         
         # Título
-        title = ctk.CTkLabel(
-            self.connection_frame,
-            text="Conexión Bluetooth",
-            font=ctk.CTkFont(size=20, weight="bold")
+        title_label = ctk.CTkLabel(
+            connection_frame,
+            text="🔵 Gestor de Dispositivos Bluetooth",
+            font=("Arial", 20, "bold")
         )
-        title.grid(row=0, column=0, padx=20, pady=(20, 10), sticky="w")
+        title_label.pack(pady=10)
         
         # Botón de escaneo
         self.scan_button = ctk.CTkButton(
-            self.connection_frame,
-            text="Escanear Dispositivos",
-            command=self.scan_devices
+            connection_frame,
+            text="🔍 Escanear Dispositivos",
+            command=self.start_scan,
+            width=200,
+            height=40,
+            font=("Arial", 14, "bold")
         )
-        self.scan_button.grid(row=1, column=0, padx=20, pady=10, sticky="ew")
+        self.scan_button.pack(pady=5)
         
-        # Lista de dispositivos
+        # Label de estado de escaneo
+        self.scan_status_label = ctk.CTkLabel(
+            connection_frame,
+            text="Presiona 'Escanear' para buscar dispositivos",
+            font=("Arial", 12)
+        )
+        self.scan_status_label.pack(pady=5)
+        
+        # ========== FRAME CENTRAL: LISTA DE DISPOSITIVOS ==========
+        devices_frame = ctk.CTkFrame(self.root)
+        devices_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        
         devices_label = ctk.CTkLabel(
-            self.connection_frame,
-            text="Dispositivos encontrados:",
-            font=ctk.CTkFont(size=12)
+            devices_frame,
+            text="Dispositivos Encontrados:",
+            font=("Arial", 16, "bold")
         )
-        devices_label.grid(row=2, column=0, padx=20, pady=(10, 5), sticky="w")
+        devices_label.pack(pady=10)
         
-        self.devices_listbox = ctk.CTkTextbox(
-            self.connection_frame,
-            height=200,
-            width=260
-        )
-        self.devices_listbox.grid(row=3, column=0, padx=20, pady=5, sticky="ew")
-        self.devices_listbox.configure(state="disabled")
+        # Frame con scrollbar para la lista de dispositivos
+        list_frame = ctk.CTkFrame(devices_frame)
+        list_frame.pack(fill="both", expand=True, padx=10, pady=5)
         
-        # Información del dispositivo seleccionado
-        self.device_info_label = ctk.CTkLabel(
-            self.connection_frame,
-            text="Ningún dispositivo seleccionado",
-            font=ctk.CTkFont(size=11),
+        # ScrollableFrame para dispositivos
+        self.devices_scrollable = ctk.CTkScrollableFrame(list_frame)
+        self.devices_scrollable.pack(fill="both", expand=True)
+        
+        # Mensaje cuando no hay dispositivos
+        self.no_devices_label = ctk.CTkLabel(
+            self.devices_scrollable,
+            text="No hay dispositivos escaneados.\nPresiona 'Escanear Dispositivos' para comenzar.",
+            font=("Arial", 12),
             text_color="gray"
         )
-        self.device_info_label.grid(row=4, column=0, padx=20, pady=10, sticky="n")
+        self.no_devices_label.pack(pady=50)
+        
+        # ========== FRAME DE CONEXIÓN ==========
+        connect_frame = ctk.CTkFrame(self.root)
+        connect_frame.pack(fill="x", padx=10, pady=10)
+        
+        # Label de dispositivo seleccionado
+        self.selected_label = ctk.CTkLabel(
+            connect_frame,
+            text="Ningún dispositivo seleccionado",
+            font=("Arial", 12),
+            text_color="orange"
+        )
+        self.selected_label.pack(pady=5)
         
         # Botones de conexión
-        button_frame = ctk.CTkFrame(self.connection_frame, fg_color="transparent")
-        button_frame.grid(row=5, column=0, padx=20, pady=(0, 20), sticky="ew")
-        button_frame.grid_columnconfigure((0, 1), weight=1)
+        button_frame = ctk.CTkFrame(connect_frame)
+        button_frame.pack(pady=5)
+        
+        # Botón de diagnóstico
+        self.diagnostic_button = ctk.CTkButton(
+            button_frame,
+            text="🔍 Diagnosticar",
+            command=self.diagnosticar_dispositivo_seleccionado,
+            width=150,
+            state="disabled",
+            fg_color="purple",
+            hover_color="darkviolet"
+        )
+        self.diagnostic_button.pack(side="left", padx=5)
         
         self.connect_button = ctk.CTkButton(
             button_frame,
-            text="Conectar",
-            command=self.connect_device,
+            text="📡 Conectar",
+            command=self.connect_to_device,
+            width=150,
             state="disabled"
         )
-        self.connect_button.grid(row=0, column=0, padx=(0, 5), pady=0, sticky="ew")
+        self.connect_button.pack(side="left", padx=5)
         
         self.disconnect_button = ctk.CTkButton(
             button_frame,
-            text="Desconectar",
-            command=self.disconnect_device,
+            text="❌ Desconectar",
+            command=self.disconnect_from_device,
+            width=150,
             state="disabled",
-            fg_color="gray",
-            hover_color="darkgray"
+            fg_color="red",
+            hover_color="darkred"
         )
-        self.disconnect_button.grid(row=0, column=1, padx=(5, 0), pady=0, sticky="ew")
+        self.disconnect_button.pack(side="left", padx=5)
+        
+        # Estado de conexión
+        self.connection_status_label = ctk.CTkLabel(
+            connect_frame,
+            text="● Desconectado",
+            font=("Arial", 14, "bold"),
+            text_color="red"
+        )
+        self.connection_status_label.pack(pady=5)
+        
+        # ========== FRAME INFERIOR: DATOS RECIBIDOS ==========
+        data_frame = ctk.CTkFrame(self.root)
+        data_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        
+        data_label = ctk.CTkLabel(
+            data_frame,
+            text="Datos Recibidos:",
+            font=("Arial", 14, "bold")
+        )
+        data_label.pack(pady=5)
+        
+        # TextBox para mostrar datos
+        self.data_textbox = ctk.CTkTextbox(
+            data_frame,
+            height=150,
+            font=("Courier", 11)
+        )
+        self.data_textbox.pack(fill="both", expand=True, padx=5, pady=5)
+        
+        # Botón para limpiar datos
+        clear_button = ctk.CTkButton(
+            data_frame,
+            text="🗑️ Limpiar Datos",
+            command=self.clear_data_display,
+            width=150
+        )
+        clear_button.pack(pady=5)
     
-    def _create_data_panel(self):
-        """Crea el panel principal de visualización de datos."""
-        # Frame contenedor
-        self.data_frame = ctk.CTkFrame(self.window)
-        self.data_frame.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
-        self.data_frame.grid_rowconfigure(1, weight=1)
-        self.data_frame.grid_columnconfigure(0, weight=1)
+    def start_scan(self):
+        """
+        Inicia el escaneo de dispositivos Bluetooth.
         
-        # Título y controles
-        header_frame = ctk.CTkFrame(self.data_frame, fg_color="transparent")
-        header_frame.grid(row=0, column=0, sticky="ew", padx=10, pady=10)
-        header_frame.grid_columnconfigure(0, weight=1)
-        
-        title = ctk.CTkLabel(
-            header_frame,
-            text="Datos Recibidos",
-            font=ctk.CTkFont(size=20, weight="bold")
-        )
-        title.grid(row=0, column=0, sticky="w")
-        
-        # Botones de control
-        controls_frame = ctk.CTkFrame(header_frame, fg_color="transparent")
-        controls_frame.grid(row=0, column=1, sticky="e")
-        
-        self.clear_button = ctk.CTkButton(
-            controls_frame,
-            text="Limpiar",
-            command=self.clear_data,
-            width=100
-        )
-        self.clear_button.grid(row=0, column=0, padx=5)
-        
-        self.export_button = ctk.CTkButton(
-            controls_frame,
-            text="Exportar CSV",
-            command=self.export_data,
-            width=120
-        )
-        self.export_button.grid(row=0, column=1, padx=5)
-        
-        # Área de visualización de datos
-        self.data_display = ctk.CTkTextbox(
-            self.data_frame,
-            font=ctk.CTkFont(family="Courier", size=12)
-        )
-        self.data_display.grid(row=1, column=0, sticky="nsew", padx=10, pady=(0, 10))
-        
-        # Mensaje inicial
-        self.data_display.insert("1.0", "Esperando conexión...\n\n")
-        self.data_display.configure(state="disabled")
-    
-    def _create_status_bar(self):
-        """Crea la barra de estado en la parte inferior."""
-        self.status_frame = ctk.CTkFrame(self.window, height=30, corner_radius=0)
-        self.status_frame.grid(row=1, column=0, columnspan=2, sticky="ew", padx=0, pady=0)
-        
-        self.status_label = ctk.CTkLabel(
-            self.status_frame,
-            text="Estado: Desconectado",
-            font=ctk.CTkFont(size=11)
-        )
-        self.status_label.pack(side="left", padx=10)
-        
-        self.message_counter = ctk.CTkLabel(
-            self.status_frame,
-            text="Mensajes: 0",
-            font=ctk.CTkFont(size=11)
-        )
-        self.message_counter.pack(side="right", padx=10)
-    
-    def scan_devices(self):
-        """Inicia el escaneo de dispositivos Bluetooth."""
-        logger.info("Iniciando escaneo de dispositivos")
-        
+        Este método se ejecuta en un hilo separado para no bloquear la UI.
+        """
         # Deshabilitar botón durante escaneo
-        self.scan_button.configure(state="disabled", text="Escaneando...")
-        self.window.update()
-        
-        # Realizar escaneo
-        self.devices_list = self.bt_manager.scan_devices(
-            duration=self.config.get('scan_timeout', 8)
+        self.scan_button.configure(state="disabled", text="⏳ Escaneando...")
+        self.scan_status_label.configure(
+            text="Escaneando dispositivos Bluetooth... (esto puede tardar unos segundos)",
+            text_color="orange"
         )
         
-        # Actualizar lista
-        self.devices_listbox.configure(state="normal")
-        self.devices_listbox.delete("1.0", "end")
+        # Limpiar lista anterior
+        self.clear_device_list()
         
-        if self.devices_list:
-            for i, device in enumerate(self.devices_list):
-                self.devices_listbox.insert(
-                    "end",
-                    f"{i+1}. {device['name']}\n   {device['address']}\n\n"
-                )
-            self.connect_button.configure(state="normal")
-        else:
-            self.devices_listbox.insert("end", "No se encontraron dispositivos.\n")
-        
-        self.devices_listbox.configure(state="disabled")
-        
-        # Rehabilitar botón
-        self.scan_button.configure(state="normal", text="Escanear Dispositivos")
-        
-        logger.info(f"Escaneo completado: {len(self.devices_list)} dispositivos encontrados")
+        # Ejecutar escaneo en hilo separado
+        scan_thread = threading.Thread(target=self._perform_scan, daemon=True)
+        scan_thread.start()
     
-    def connect_device(self):
-        """Conecta al dispositivo seleccionado."""
-        if not self.devices_list:
-            messagebox.showwarning("Advertencia", "No hay dispositivos disponibles")
-            return
+    def _perform_scan(self):
+        """
+        Realiza el escaneo de dispositivos en un hilo separado.
         
-        # Por ahora, conectar al primer dispositivo
-        # TODO: Implementar selección de dispositivo
-        device = self.devices_list[0]
+        Este método NO debe interactuar directamente con la UI.
+        """
+        try:
+            # Obtener duración del escaneo desde config
+            duration = self.config.get('scan_duration', 8)
+            
+            # Realizar escaneo
+            devices = self.bt_manager.scan_devices(duration=duration)
+            
+            # Actualizar UI en el hilo principal
+            self.root.after(0, self._update_devices_list, devices)
+            
+        except Exception as e:
+            logger.error(f"Error durante escaneo: {e}")
+            self.root.after(0, self._scan_error, str(e))
+    
+    def _update_devices_list(self, devices):
+        """
+        Actualiza la lista de dispositivos en la UI.
         
-        logger.info(f"Intentando conectar a {device['name']}")
+        Args:
+            devices: Lista de dispositivos encontrados
+        """
+        self.devices_list = devices
         
-        # Intentar conexión
-        success = self.bt_manager.connect(device['address'])
+        # Limpiar widgets anteriores
+        self.clear_device_list()
         
-        if success:
-            self.selected_device = device
-            self.device_info_label.configure(
-                text=f"Conectado a:\n{device['name']}\n{device['address']}",
+        if not devices:
+            # Mostrar mensaje si no hay dispositivos
+            self.no_devices_label.pack(pady=50)
+            self.scan_status_label.configure(
+                text=f"No se encontraron dispositivos. Intenta escanear nuevamente.",
+                text_color="red"
+            )
+        else:
+            # Ocultar mensaje de "no dispositivos"
+            self.no_devices_label.pack_forget()
+            
+            # Crear un widget por cada dispositivo
+            for idx, device in enumerate(devices):
+                self._create_device_widget(device, idx)
+            
+            self.scan_status_label.configure(
+                text=f"✓ Se encontraron {len(devices)} dispositivo(s)",
                 text_color="green"
             )
+        
+        # Rehabilitar botón de escaneo
+        self.scan_button.configure(state="normal", text="🔍 Escanear Dispositivos")
+    
+    def _create_device_widget(self, device, index):
+        """
+        Crea un widget para mostrar un dispositivo.
+        
+        Args:
+            device: Diccionario con información del dispositivo
+            index: Índice del dispositivo en la lista
+        """
+        # Frame para cada dispositivo
+        device_frame = ctk.CTkFrame(
+            self.devices_scrollable,
+            corner_radius=10
+        )
+        device_frame.pack(fill="x", padx=10, pady=5)
+        
+        # Frame de información
+        info_frame = ctk.CTkFrame(device_frame, fg_color="transparent")
+        info_frame.pack(side="left", fill="both", expand=True, padx=10, pady=10)
+        
+        # Nombre del dispositivo
+        name_label = ctk.CTkLabel(
+            info_frame,
+            text=f"📱 {device['name']}",
+            font=("Arial", 14, "bold"),
+            anchor="w"
+        )
+        name_label.pack(anchor="w")
+        
+        # Dirección MAC
+        address_label = ctk.CTkLabel(
+            info_frame,
+            text=f"MAC: {device['address']}",
+            font=("Courier", 11),
+            text_color="gray",
+            anchor="w"
+        )
+        address_label.pack(anchor="w")
+        
+        # Botón de selección
+        select_button = ctk.CTkButton(
+            device_frame,
+            text="Seleccionar",
+            command=lambda d=device: self.select_device(d),
+            width=120
+        )
+        select_button.pack(side="right", padx=10)
+    
+    def select_device(self, device):
+        """
+        Selecciona un dispositivo de la lista.
+        
+        Args:
+            device: Diccionario con información del dispositivo
+        """
+        self.selected_device = device
+        
+        # Actualizar label de selección
+        self.selected_label.configure(
+            text=f"✓ Dispositivo seleccionado: {device['name']} ({device['address']})",
+            text_color="green"
+        )
+        
+        # Habilitar botones de diagnóstico y conexión
+        self.diagnostic_button.configure(state="normal")
+        self.connect_button.configure(state="normal")
+        
+        logger.info(f"Dispositivo seleccionado: {device['name']} - {device['address']}")
+    
+    def diagnosticar_dispositivo_seleccionado(self):
+        """
+        Diagnostica el dispositivo seleccionado y muestra los resultados.
+        
+        Este método ejecuta un diagnóstico completo del dispositivo para
+        verificar su compatibilidad con la aplicación.
+        """
+        if not self.selected_device:
+            messagebox.showwarning(
+                "Sin dispositivo",
+                "Por favor selecciona un dispositivo primero"
+            )
+            return
+        
+        # Deshabilitar botón durante diagnóstico
+        self.diagnostic_button.configure(state="disabled", text="⏳ Diagnosticando...")
+        
+        # Ejecutar diagnóstico en hilo separado
+        diagnostic_thread = threading.Thread(
+            target=self._perform_diagnostic,
+            daemon=True
+        )
+        diagnostic_thread.start()
+    
+    def _perform_diagnostic(self):
+        """
+        Realiza el diagnóstico en un hilo separado.
+        
+        Este método NO debe interactuar directamente con la UI.
+        """
+        try:
+            # Realizar diagnóstico
+            resultado = self.bt_manager.diagnosticar_dispositivo(
+                self.selected_device['address'],
+                self.selected_device['name']
+            )
+            
+            # Actualizar UI en el hilo principal
+            self.root.after(0, self._mostrar_resultado_diagnostico, resultado)
+            
+        except Exception as e:
+            logger.error(f"Error durante diagnóstico: {e}")
+            self.root.after(0, self._diagnostic_error, str(e))
+    
+    def _mostrar_resultado_diagnostico(self, resultado):
+        """
+        Muestra el resultado del diagnóstico en una ventana.
+        
+        Args:
+            resultado: Diccionario con información del diagnóstico
+        """
+        # Rehabilitar botón
+        self.diagnostic_button.configure(state="normal", text="🔍 Diagnosticar")
+        
+        # Crear ventana de diagnóstico
+        ventana_diagnostico = ctk.CTkToplevel(self.root)
+        ventana_diagnostico.title(f"Diagnóstico - {self.selected_device['name']}")
+        ventana_diagnostico.geometry("600x500")
+        
+        # Centrar ventana
+        ventana_diagnostico.transient(self.root)
+        ventana_diagnostico.grab_set()
+        
+        # Frame principal
+        main_frame = ctk.CTkFrame(ventana_diagnostico)
+        main_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        
+        # Título
+        titulo_color = "green" if resultado['compatible'] else "red"
+        titulo_label = ctk.CTkLabel(
+            main_frame,
+            text=resultado['mensaje'],
+            font=("Arial", 24, "bold"),
+            text_color=titulo_color
+        )
+        titulo_label.pack(pady=10)
+        
+        # Información del dispositivo
+        info_frame = ctk.CTkFrame(main_frame)
+        info_frame.pack(fill="x", pady=10)
+        
+        device_info = ctk.CTkLabel(
+            info_frame,
+            text=f"📱 {self.selected_device['name']}\n"
+                 f"📍 MAC: {self.selected_device['address']}",
+            font=("Arial", 12),
+            justify="left"
+        )
+        device_info.pack(pady=10)
+        
+        # Detalles del diagnóstico
+        details_label = ctk.CTkLabel(
+            main_frame,
+            text="Detalles del Diagnóstico:",
+            font=("Arial", 14, "bold")
+        )
+        details_label.pack(pady=(10, 5))
+        
+        # TextBox con detalles
+        details_textbox = ctk.CTkTextbox(
+            main_frame,
+            height=250,
+            font=("Courier", 11)
+        )
+        details_textbox.pack(fill="both", expand=True, pady=5)
+        details_textbox.insert("1.0", resultado['detalles'])
+        details_textbox.configure(state="disabled")  # Solo lectura
+        
+        # Botón de cerrar
+        close_button = ctk.CTkButton(
+            main_frame,
+            text="Cerrar",
+            command=ventana_diagnostico.destroy,
+            width=150
+        )
+        close_button.pack(pady=10)
+        
+        # Si es compatible, ofrecer conectar directamente
+        if resultado['compatible'] and resultado['puerto_sugerido']:
+            connect_button = ctk.CTkButton(
+                main_frame,
+                text=f"📡 Conectar a Puerto {resultado['puerto_sugerido']}",
+                command=lambda: self._conectar_con_puerto(
+                    resultado['puerto_sugerido'],
+                    ventana_diagnostico
+                ),
+                width=250,
+                fg_color="green",
+                hover_color="darkgreen"
+            )
+            connect_button.pack(pady=5)
+    
+    def _conectar_con_puerto(self, puerto, ventana):
+        """
+        Conecta usando un puerto específico sugerido por el diagnóstico.
+        
+        Args:
+            puerto: Puerto RFCOMM a usar
+            ventana: Ventana de diagnóstico a cerrar
+        """
+        # Guardar puerto sugerido
+        if not hasattr(self, '_puerto_sugerido'):
+            self._puerto_sugerido = puerto
+        
+        # Cerrar ventana de diagnóstico
+        ventana.destroy()
+        
+        # Conectar
+        self.connect_to_device()
+    
+    def _diagnostic_error(self, error_msg):
+        """
+        Maneja errores durante el diagnóstico.
+        
+        Args:
+            error_msg: Mensaje de error
+        """
+        self.diagnostic_button.configure(state="normal", text="🔍 Diagnosticar")
+        
+        messagebox.showerror(
+            "Error de diagnóstico",
+            f"Error al diagnosticar el dispositivo:\n\n{error_msg}"
+        )
+    
+    def connect_to_device(self):
+        """Conecta al dispositivo seleccionado."""
+        if not self.selected_device:
+            messagebox.showwarning(
+                "Sin dispositivo",
+                "Por favor selecciona un dispositivo primero"
+            )
+            return
+        
+        # Deshabilitar botones
+        self.connect_button.configure(state="disabled")
+        self.scan_button.configure(state="disabled")
+        
+        # Actualizar estado
+        self.connection_status_label.configure(
+            text="● Conectando...",
+            text_color="orange"
+        )
+        
+        # Conectar en hilo separado
+        connect_thread = threading.Thread(
+            target=self._perform_connection,
+            daemon=True
+        )
+        connect_thread.start()
+    
+    def _perform_connection(self):
+        """Realiza la conexión en un hilo separado."""
+        try:
+            # Intentar conexión
+            success = self.bt_manager.connect(self.selected_device['address'])
+            
+            # Actualizar UI según resultado
+            self.root.after(0, self._connection_result, success)
+            
+        except Exception as e:
+            logger.error(f"Error en conexión: {e}")
+            self.root.after(0, self._connection_result, False)
+    
+    def _connection_result(self, success):
+        """
+        Maneja el resultado de la conexión.
+        
+        Args:
+            success: True si la conexión fue exitosa
+        """
+        if success:
+            self.connection_status_label.configure(
+                text="● Conectado",
+                text_color="green"
+            )
+            self.disconnect_button.configure(state="normal")
             self.connect_button.configure(state="disabled")
-            self.disconnect_button.configure(
-                state="normal",
-                fg_color=["#3B8ED0", "#1F6AA5"],
-                hover_color=["#36719F", "#144870"]
+            
+            messagebox.showinfo(
+                "Conexión exitosa",
+                f"Conectado a {self.selected_device['name']}"
             )
         else:
+            self.connection_status_label.configure(
+                text="● Error de conexión",
+                text_color="red"
+            )
+            self.connect_button.configure(state="normal")
+            self.scan_button.configure(state="normal")
+            
             messagebox.showerror(
-                "Error de Conexión",
-                f"No se pudo conectar a {device['name']}"
+                "Error de conexión",
+                f"No se pudo conectar a {self.selected_device['name']}\n\n"
+                "Verifica que:\n"
+                "• El dispositivo está encendido\n"
+                "• El Bluetooth está habilitado\n"
+                "• El dispositivo acepta conexiones"
             )
     
-    def disconnect_device(self):
+    def disconnect_from_device(self):
         """Desconecta del dispositivo actual."""
         self.bt_manager.disconnect()
         
-        self.selected_device = None
-        self.device_info_label.configure(
-            text="Ningún dispositivo seleccionado",
-            text_color="gray"
+        # Actualizar UI
+        self.connection_status_label.configure(
+            text="● Desconectado",
+            text_color="red"
         )
+        self.disconnect_button.configure(state="disabled")
         self.connect_button.configure(state="normal")
-        self.disconnect_button.configure(
-            state="disabled",
-            fg_color="gray",
-            hover_color="darkgray"
-        )
+        self.scan_button.configure(state="normal")
     
-    def update_data_display(self, processed_data: Dict[str, Any]):
+    def clear_device_list(self):
+        """Limpia la lista de dispositivos mostrados."""
+        # Destruir todos los widgets hijos del frame scrollable
+        for widget in self.devices_scrollable.winfo_children():
+            widget.destroy()
+    
+    def _scan_error(self, error_msg):
         """
-        Actualiza la visualización con nuevos datos.
+        Maneja errores durante el escaneo.
         
         Args:
-            processed_data: Diccionario con los datos procesados
+            error_msg: Mensaje de error
         """
-        # Habilitar edición temporal
-        self.data_display.configure(state="normal")
+        self.scan_button.configure(state="normal", text="🔍 Escanear Dispositivos")
+        self.scan_status_label.configure(
+            text=f"Error durante escaneo: {error_msg}",
+            text_color="red"
+        )
         
-        # Formatear y mostrar datos
-        timestamp = processed_data.get('timestamp', datetime.now())
-        data = processed_data.get('data', {})
+        messagebox.showerror("Error de escaneo", f"Error durante el escaneo:\n{error_msg}")
+    
+    def update_data_display(self, processed_data):
+        """
+        Actualiza la visualización de datos recibidos.
         
-        # Crear línea de datos
-        display_text = f"[{timestamp.strftime('%H:%M:%S')}] "
+        Args:
+            processed_data: Datos procesados del manejador de datos
+        """
+        # Formatear datos para mostrar
+        timestamp = processed_data['timestamp'].strftime("%H:%M:%S")
+        text = processed_data['text']
+        hex_data = processed_data['hex']
         
-        if isinstance(data, dict):
-            # Formatear datos como clave: valor
-            items = [f"{k}: {v}" for k, v in data.items()]
-            display_text += " | ".join(items)
-        else:
-            display_text += str(data)
+        # Agregar al textbox
+        display_text = f"[{timestamp}] {text}\n"
+        if hex_data:
+            display_text += f"  HEX: {hex_data}\n"
         
-        display_text += "\n"
-        
-        # Insertar al final
-        self.data_display.insert("end", display_text)
+        self.data_textbox.insert("end", display_text)
         
         # Auto-scroll al final
-        self.data_display.see("end")
-        
-        # Deshabilitar edición
-        self.data_display.configure(state="disabled")
-        
-        # Actualizar contador
-        count = processed_data.get('message_number', 0)
-        self.message_counter.configure(text=f"Mensajes: {count}")
+        self.data_textbox.see("end")
     
-    def update_connection_status(self, connected: bool, device_info: Dict = None):
+    def clear_data_display(self):
+        """Limpia la visualización de datos."""
+        self.data_textbox.delete("1.0", "end")
+        self.data_handler.clear_history()
+    
+    def update_connection_status(self, connected, device_info):
         """
-        Actualiza el estado de la conexión en la UI.
+        Actualiza el estado de la conexión.
         
         Args:
             connected: True si está conectado
             device_info: Información del dispositivo
         """
         if connected:
-            status_text = f"Estado: Conectado - {device_info.get('name', 'Desconocido')}"
-            self.status_label.configure(text=status_text, text_color="green")
-        else:
-            self.status_label.configure(text="Estado: Desconectado", text_color="red")
-    
-    def clear_data(self):
-        """Limpia el área de visualización de datos."""
-        response = messagebox.askyesno(
-            "Confirmar",
-            "¿Desea limpiar todos los datos mostrados?"
-        )
-        
-        if response:
-            self.data_display.configure(state="normal")
-            self.data_display.delete("1.0", "end")
-            self.data_display.configure(state="disabled")
-            
-            self.data_handler.clear_history()
-            self.message_counter.configure(text="Mensajes: 0")
-            
-            logger.info("Datos limpiados")
-    
-    def export_data(self):
-        """Exporta los datos a un archivo CSV."""
-        filename = f"bluetooth_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-        
-        success = self.data_handler.export_to_csv(filename)
-        
-        if success:
-            messagebox.showinfo(
-                "Exportación Exitosa",
-                f"Datos exportados a:\n{filename}"
+            self.connection_status_label.configure(
+                text="● Conectado",
+                text_color="green"
             )
         else:
-            messagebox.showerror(
-                "Error",
-                "No se pudieron exportar los datos"
+            self.connection_status_label.configure(
+                text="● Desconectado",
+                text_color="red"
             )
     
-    def show_error(self, message: str):
-        """Muestra un mensaje de error al usuario."""
+    def show_error(self, message):
+        """
+        Muestra un mensaje de error.
+        
+        Args:
+            message: Mensaje a mostrar
+        """
         messagebox.showerror("Error", message)
     
     def on_closing(self):
         """Maneja el cierre de la ventana."""
         if self.bt_manager.is_connected():
-            response = messagebox.askyesno(
-                "Confirmar Salida",
-                "Hay una conexión activa. ¿Desea salir de todas formas?"
-            )
-            if not response:
-                return
-        
-        logger.info("Cerrando aplicación desde UI")
-        self.window.destroy()
+            if messagebox.askokcancel("Cerrar", "¿Desconectar y cerrar la aplicación?"):
+                self.bt_manager.disconnect()
+                self.root.destroy()
+        else:
+            self.root.destroy()
     
     def run(self):
-        """Inicia el loop principal de la interfaz."""
-        self.window.mainloop()
+        """Inicia el loop principal de la aplicación."""
+        self.root.mainloop()

@@ -2,7 +2,7 @@
 Aplicación Bluetooth con CustomTkinter
 Autor: Tu Nombre
 Versión: 1.0.0
-Descripción: Aplicación para recibir y visualizar datos de dispositivos Bluetooth
+Descripción: Aplicación para escanear, seleccionar y recibir datos de dispositivos Bluetooth
 """
 
 import customtkinter as ctk

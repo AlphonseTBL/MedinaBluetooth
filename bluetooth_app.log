@@ -1,49 +1,100 @@
-2026-02-06 11:07:37,422 - __main__ - INFO - Iniciando aplicación Bluetooth
-2026-02-06 11:07:37,425 - src.bluetooth_manager - INFO - BluetoothManager inicializado
-2026-02-06 11:07:37,425 - src.data_handler - INFO - DataHandler inicializado con buffer de 100
-2026-02-06 11:07:38,987 - src.ui.main_window - INFO - Ventana principal creada
-2026-02-06 11:07:38,988 - __main__ - INFO - Iniciando interfaz gráfica
-2026-02-06 11:07:50,286 - src.ui.main_window - INFO - Iniciando escaneo de dispositivos
-2026-02-06 11:07:50,298 - src.bluetooth_manager - INFO - Escaneando dispositivos durante 10 segundos...
-2026-02-06 11:08:03,153 - src.bluetooth_manager - INFO - Encontrados 2 dispositivos
-2026-02-06 11:08:03,159 - src.ui.main_window - INFO - Escaneo completado: 2 dispositivos encontrados
-2026-02-06 11:12:12,058 - src.ui.main_window - INFO - Iniciando escaneo de dispositivos
-2026-02-06 11:12:12,068 - src.bluetooth_manager - INFO - Escaneando dispositivos durante 10 segundos...
-2026-02-06 11:12:24,878 - src.bluetooth_manager - INFO - Encontrados 5 dispositivos
-2026-02-06 11:12:24,893 - src.ui.main_window - INFO - Escaneo completado: 5 dispositivos encontrados
-2026-02-06 11:12:38,908 - src.ui.main_window - INFO - Intentando conectar a WH-CH520
-2026-02-06 11:12:38,908 - src.bluetooth_manager - INFO - Intentando conectar a 30:53:C1:B3:35:38:1
-2026-02-06 11:12:38,912 - src.bluetooth_manager - ERROR - Error al conectar: argument 2 (impossible<bad format char>)
-2026-02-06 11:12:46,304 - src.ui.main_window - INFO - Intentando conectar a WH-CH520
-2026-02-06 11:12:46,304 - src.bluetooth_manager - INFO - Intentando conectar a 30:53:C1:B3:35:38:1
-2026-02-06 11:12:46,305 - src.bluetooth_manager - ERROR - Error al conectar: argument 2 (impossible<bad format char>)
-2026-02-06 11:12:59,239 - src.ui.main_window - INFO - Iniciando escaneo de dispositivos
-2026-02-06 11:12:59,251 - src.bluetooth_manager - INFO - Escaneando dispositivos durante 10 segundos...
-2026-02-06 11:13:12,126 - src.bluetooth_manager - INFO - Encontrados 5 dispositivos
-2026-02-06 11:13:12,147 - src.ui.main_window - INFO - Escaneo completado: 5 dispositivos encontrados
-2026-02-06 11:13:26,060 - src.ui.main_window - INFO - Iniciando escaneo de dispositivos
-2026-02-06 11:13:26,068 - src.bluetooth_manager - INFO - Escaneando dispositivos durante 10 segundos...
-2026-02-06 11:13:38,925 - src.bluetooth_manager - INFO - Encontrados 3 dispositivos
-2026-02-06 11:13:38,932 - src.ui.main_window - INFO - Escaneo completado: 3 dispositivos encontrados
-2026-02-06 11:13:41,472 - src.ui.main_window - INFO - Intentando conectar a Redmi Buds 5 Pro
-2026-02-06 11:13:41,473 - src.bluetooth_manager - INFO - Intentando conectar a 48:73:CB:D4:BF:64:1
-2026-02-06 11:13:41,473 - src.bluetooth_manager - ERROR - Error al conectar: argument 2 (impossible<bad format char>)
-2026-02-06 11:13:47,713 - src.ui.main_window - INFO - Cerrando aplicación desde UI
-2026-02-06 11:13:48,673 - __main__ - INFO - Cerrando aplicación
-2026-02-06 11:13:59,078 - __main__ - INFO - Iniciando aplicación Bluetooth
-2026-02-06 11:13:59,081 - src.bluetooth_manager - INFO - BluetoothManager inicializado
-2026-02-06 11:13:59,082 - src.data_handler - INFO - DataHandler inicializado con buffer de 100
-2026-02-06 11:13:59,459 - src.ui.main_window - INFO - Ventana principal creada
-2026-02-06 11:13:59,460 - __main__ - INFO - Iniciando interfaz gráfica
-2026-02-06 11:14:00,770 - src.ui.main_window - INFO - Iniciando escaneo de dispositivos
-2026-02-06 11:14:00,782 - src.bluetooth_manager - INFO - Escaneando dispositivos durante 10 segundos...
-2026-02-06 11:14:13,596 - src.bluetooth_manager - INFO - Encontrados 3 dispositivos
-2026-02-06 11:14:13,602 - src.ui.main_window - INFO - Escaneo completado: 3 dispositivos encontrados
-2026-02-06 11:14:17,826 - src.ui.main_window - INFO - Intentando conectar a Redmi Buds 5 Pro
-2026-02-06 11:14:17,827 - src.bluetooth_manager - INFO - Intentando conectar a 48:73:CB:D4:BF:64:1
-2026-02-06 11:14:17,830 - src.bluetooth_manager - ERROR - Error al conectar: argument 2 (impossible<bad format char>)
-2026-02-06 11:14:34,410 - src.ui.main_window - INFO - Intentando conectar a Redmi Buds 5 Pro
-2026-02-06 11:14:34,411 - src.bluetooth_manager - INFO - Intentando conectar a 48:73:CB:D4:BF:64:1
-2026-02-06 11:14:34,412 - src.bluetooth_manager - ERROR - Error al conectar: argument 2 (impossible<bad format char>)
-2026-02-06 11:14:42,875 - src.ui.main_window - INFO - Cerrando aplicación desde UI
-2026-02-06 11:14:43,767 - __main__ - INFO - Cerrando aplicación
+2026-02-09 20:15:17,456 - __main__ - INFO - Iniciando aplicación Bluetooth
+2026-02-09 20:15:17,459 - src.bluetooth_manager - INFO - BluetoothManager inicializado
+2026-02-09 20:15:17,459 - src.data_handler - INFO - DataHandler inicializado
+2026-02-09 20:15:21,498 - src.ui.main_window - INFO - Ventana principal creada
+2026-02-09 20:15:21,498 - __main__ - INFO - Iniciando interfaz gráfica
+2026-02-09 20:16:05,946 - src.bluetooth_manager - INFO - Iniciando escaneo de dispositivos (duración: 8s)
+2026-02-09 20:16:25,339 - src.bluetooth_manager - INFO - Escaneo completado. Dispositivos encontrados: 8
+2026-02-09 20:16:31,941 - src.ui.main_window - INFO - Dispositivo seleccionado: Redmi Buds 6 Play - 54:84:50:9E:D0:3F
+2026-02-09 20:16:35,032 - src.bluetooth_manager - INFO - Intentando conectar a 54:84:50:9E:D0:3F en puerto 1
+2026-02-09 20:16:35,055 - src.bluetooth_manager - ERROR - Error inesperado al conectar: argument 2 (impossible<bad format char>)
+2026-02-09 20:16:47,525 - src.ui.main_window - INFO - Dispositivo seleccionado: Redmi Buds 6 Play - 54:84:50:9E:D0:3F
+2026-02-09 20:16:49,253 - src.bluetooth_manager - INFO - Intentando conectar a 54:84:50:9E:D0:3F en puerto 1
+2026-02-09 20:16:49,254 - src.bluetooth_manager - ERROR - Error inesperado al conectar: argument 2 (impossible<bad format char>)
+2026-02-09 20:17:12,635 - src.ui.main_window - INFO - Dispositivo seleccionado: HUAWEI P40 lite - 64:23:15:DD:C3:E6
+2026-02-09 20:17:14,012 - src.bluetooth_manager - INFO - Intentando conectar a 64:23:15:DD:C3:E6 en puerto 1
+2026-02-09 20:17:14,013 - src.bluetooth_manager - ERROR - Error inesperado al conectar: argument 2 (impossible<bad format char>)
+2026-02-09 20:17:23,789 - src.ui.main_window - INFO - Dispositivo seleccionado: Redmi Buds 6 Play - 54:84:50:9E:D0:3F
+2026-02-09 20:17:26,966 - src.bluetooth_manager - INFO - Intentando conectar a 54:84:50:9E:D0:3F en puerto 1
+2026-02-09 20:17:26,966 - src.bluetooth_manager - ERROR - Error inesperado al conectar: argument 2 (impossible<bad format char>)
+2026-02-09 20:17:37,417 - __main__ - INFO - Cerrando aplicación
+2026-02-09 20:21:57,797 - __main__ - INFO - Iniciando aplicación Bluetooth
+2026-02-09 20:21:57,800 - src.bluetooth_manager - INFO - BluetoothManager inicializado
+2026-02-09 20:21:57,800 - src.data_handler - INFO - DataHandler inicializado
+2026-02-09 20:21:58,953 - src.ui.main_window - INFO - Ventana principal creada
+2026-02-09 20:21:58,954 - __main__ - INFO - Iniciando interfaz gráfica
+2026-02-09 20:22:08,487 - src.bluetooth_manager - INFO - Iniciando escaneo de dispositivos (duración: 8s)
+2026-02-09 20:22:18,802 - src.bluetooth_manager - INFO - Escaneo completado. Dispositivos encontrados: 7
+2026-02-09 20:22:27,386 - src.ui.main_window - INFO - Dispositivo seleccionado: Redmi Buds 6 Play - 54:84:50:9E:D0:3F
+2026-02-09 20:22:31,262 - src.bluetooth_manager - INFO - Intentando conectar a 54:84:50:9E:D0:3F en puerto 1
+2026-02-09 20:22:31,266 - src.bluetooth_manager - ERROR - Error inesperado al conectar: argument 2 (impossible<bad format char>)
+2026-02-09 20:31:39,421 - __main__ - INFO - Cerrando aplicación
+2026-02-09 20:47:11,445 - __main__ - INFO - Iniciando aplicación Bluetooth
+2026-02-09 20:47:11,472 - src.bluetooth_manager - INFO - BluetoothManager inicializado
+2026-02-09 20:47:11,472 - src.data_handler - INFO - DataHandler inicializado
+2026-02-09 20:47:13,613 - src.ui.main_window - INFO - Ventana principal creada
+2026-02-09 20:47:13,615 - __main__ - INFO - Iniciando interfaz gráfica
+2026-02-09 20:47:19,514 - src.bluetooth_manager - INFO - Iniciando escaneo de dispositivos (duración: 8s)
+2026-02-09 20:47:29,831 - src.bluetooth_manager - INFO - Escaneo completado. Dispositivos encontrados: 8
+2026-02-09 20:47:35,078 - src.ui.main_window - INFO - Dispositivo seleccionado: Dispositivo desconocido - BC:7E:8B:C9:D2:1F
+2026-02-09 20:47:37,744 - src.bluetooth_manager - INFO - Iniciando diagnóstico de Dispositivo desconocido (BC:7E:8B:C9:D2:1F)
+2026-02-09 20:47:50,619 - src.bluetooth_manager - WARNING - No se encontraron servicios para BC:7E:8B:C9:D2:1F
+2026-02-09 20:53:36,087 - src.bluetooth_manager - INFO - Iniciando escaneo de dispositivos (duración: 8s)
+2026-02-09 20:53:46,388 - src.bluetooth_manager - INFO - Escaneo completado. Dispositivos encontrados: 7
+2026-02-09 20:53:51,444 - src.ui.main_window - INFO - Dispositivo seleccionado: Redmi Buds 6 Play - 54:84:50:9E:D0:3F
+2026-02-09 20:53:53,672 - src.bluetooth_manager - INFO - Iniciando diagnóstico de Redmi Buds 6 Play (54:84:50:9E:D0:3F)
+2026-02-09 20:53:55,414 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 17 (None)
+2026-02-09 20:53:55,415 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 2 (b'Handsfree')
+2026-02-09 20:53:55,415 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 1 (b'SPP')
+2026-02-09 20:53:55,416 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 6 (b'SPP')
+2026-02-09 20:53:55,416 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 5 (b'SPP')
+2026-02-09 20:53:55,417 - src.bluetooth_manager - INFO - Dispositivo COMPATIBLE - Puerto sugerido: 17
+2026-02-09 20:54:09,637 - src.bluetooth_manager - INFO - Intentando conectar a 54:84:50:9E:D0:3F en puerto 1
+2026-02-09 20:54:09,640 - src.bluetooth_manager - ERROR - Error inesperado al conectar: argument 2 (impossible<bad format char>)
+2026-02-09 20:55:27,570 - src.bluetooth_manager - INFO - Iniciando diagnóstico de Redmi Buds 6 Play (54:84:50:9E:D0:3F)
+2026-02-09 20:55:27,842 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 17 (None)
+2026-02-09 20:55:27,843 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 2 (b'Handsfree')
+2026-02-09 20:55:27,843 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 1 (b'SPP')
+2026-02-09 20:55:27,844 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 6 (b'SPP')
+2026-02-09 20:55:27,844 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 5 (b'SPP')
+2026-02-09 20:55:27,845 - src.bluetooth_manager - INFO - Dispositivo COMPATIBLE - Puerto sugerido: 17
+2026-02-09 20:56:26,563 - src.ui.main_window - INFO - Dispositivo seleccionado: HUAWEI P40 lite - 64:23:15:DD:C3:E6
+2026-02-09 20:56:27,619 - src.bluetooth_manager - INFO - Iniciando diagnóstico de HUAWEI P40 lite (64:23:15:DD:C3:E6)
+2026-02-09 20:56:35,828 - src.ui.main_window - INFO - Dispositivo seleccionado: TWS V5.3 - 41:42:BF:B9:1E:C6
+2026-02-09 20:56:37,187 - src.bluetooth_manager - INFO - Iniciando diagnóstico de TWS V5.3 (41:42:BF:B9:1E:C6)
+2026-02-09 20:56:40,431 - src.bluetooth_manager - WARNING - No se encontraron servicios para 64:23:15:DD:C3:E6
+2026-02-09 20:56:50,167 - src.bluetooth_manager - INFO - Iniciando diagnóstico de TWS V5.3 (41:42:BF:B9:1E:C6)
+2026-02-09 20:56:53,241 - src.bluetooth_manager - WARNING - No se encontraron servicios para 41:42:BF:B9:1E:C6
+2026-02-09 20:56:53,241 - src.bluetooth_manager - WARNING - No se encontraron servicios para 41:42:BF:B9:1E:C6
+2026-02-09 20:56:59,118 - src.ui.main_window - INFO - Dispositivo seleccionado: Redmi Buds 6 Play - 54:84:50:9E:D0:3F
+2026-02-09 20:57:01,245 - src.bluetooth_manager - INFO - Iniciando diagnóstico de Redmi Buds 6 Play (54:84:50:9E:D0:3F)
+2026-02-09 20:57:01,529 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 17 (None)
+2026-02-09 20:57:01,529 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 2 (b'Handsfree')
+2026-02-09 20:57:01,530 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 1 (b'SPP')
+2026-02-09 20:57:01,530 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 6 (b'SPP')
+2026-02-09 20:57:01,530 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 5 (b'SPP')
+2026-02-09 20:57:01,531 - src.bluetooth_manager - INFO - Dispositivo COMPATIBLE - Puerto sugerido: 17
+2026-02-09 20:59:55,883 - src.bluetooth_manager - INFO - Iniciando diagnóstico de Redmi Buds 6 Play (54:84:50:9E:D0:3F)
+2026-02-09 20:59:56,335 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 17 (None)
+2026-02-09 20:59:56,336 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 2 (b'Handsfree')
+2026-02-09 20:59:56,337 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 1 (b'SPP')
+2026-02-09 20:59:56,337 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 6 (b'SPP')
+2026-02-09 20:59:56,338 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 5 (b'SPP')
+2026-02-09 20:59:56,338 - src.bluetooth_manager - INFO - Dispositivo COMPATIBLE - Puerto sugerido: 17
+2026-02-09 21:00:30,128 - src.bluetooth_manager - INFO - Iniciando diagnóstico de Redmi Buds 6 Play (54:84:50:9E:D0:3F)
+2026-02-09 21:00:30,493 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 17 (None)
+2026-02-09 21:00:30,493 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 2 (b'Handsfree')
+2026-02-09 21:00:30,494 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 1 (b'SPP')
+2026-02-09 21:00:30,494 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 6 (b'SPP')
+2026-02-09 21:00:30,495 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 5 (b'SPP')
+2026-02-09 21:00:30,495 - src.bluetooth_manager - INFO - Dispositivo COMPATIBLE - Puerto sugerido: 17
+2026-02-09 21:03:11,305 - src.bluetooth_manager - INFO - Intentando conectar a 54:84:50:9E:D0:3F en puerto 1
+2026-02-09 21:03:11,306 - src.bluetooth_manager - ERROR - Error inesperado al conectar: argument 2 (impossible<bad format char>)
+2026-02-09 21:03:18,375 - src.bluetooth_manager - INFO - Iniciando diagnóstico de Redmi Buds 6 Play (54:84:50:9E:D0:3F)
+2026-02-09 21:03:18,686 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 17 (None)
+2026-02-09 21:03:18,687 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 2 (b'Handsfree')
+2026-02-09 21:03:18,688 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 1 (b'SPP')
+2026-02-09 21:03:18,688 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 6 (b'SPP')
+2026-02-09 21:03:18,689 - src.bluetooth_manager - INFO - Puerto RFCOMM encontrado: 5 (b'SPP')
+2026-02-09 21:03:18,689 - src.bluetooth_manager - INFO - Dispositivo COMPATIBLE - Puerto sugerido: 17
+2026-02-09 21:03:31,075 - __main__ - INFO - Cerrando aplicación
