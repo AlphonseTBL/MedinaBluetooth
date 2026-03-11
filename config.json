@@ -3,5 +3,6 @@
     "color_theme": "blue",
     "window_size": "900x700",
     "scan_duration": 8,
+    "usar_ble": true,
     "last_device": null
 }
