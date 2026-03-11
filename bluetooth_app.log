@@ -86,3 +86,14 @@
 2026-03-11 09:19:23,919 - __main__ - INFO - Modo: Bluetooth Low Energy (BLE)
 2026-03-11 09:19:23,920 - src.renpho_ble_manager - INFO - RenphoBLEManager inicializado
 2026-03-11 09:19:23,923 - src.bluetooth_ble_adapter - INFO - Loop asyncio iniciado en thread separado
+2026-03-11 09:19:23,932 - src.bluetooth_ble_adapter - INFO - Thread asyncio listo
+2026-03-11 09:19:23,933 - src.bluetooth_ble_adapter - INFO - BluetoothBLEAdapter inicializado
+2026-03-11 09:19:23,942 - src.data_handler - INFO - DataHandler inicializado
+2026-03-11 09:19:25,131 - src.ui.main_window - INFO - Ventana principal creada
+2026-03-11 09:19:25,132 - __main__ - INFO - Aplicación inicializada correctamente
+2026-03-11 09:19:25,132 - __main__ - INFO - ============================================================
+2026-03-11 09:19:25,133 - __main__ - INFO - Iniciando interfaz gráfica
+2026-03-11 09:19:31,300 - src.bluetooth_ble_adapter - INFO - Escaneando dispositivos BLE (8s)...
+2026-03-11 09:19:31,301 - src.renpho_ble_manager - INFO - Escaneando dispositivos BLE (8s)...
+2026-03-11 09:19:39,439 - src.renpho_ble_manager - ERROR - Error durante escaneo BLE: 'BLEDevice' object has no attribute 'rssi'
+2026-03-11 09:19:39,440 - src.bluetooth_ble_adapter - INFO - Escaneo completo: 0 dispositivo(s)
