@@ -107,3 +107,40 @@
 2026-03-11 09:37:33,594 - __main__ - INFO - Aplicación cerrada
 2026-03-11 09:37:33,641 - src.bluetooth_ble_adapter - INFO - Limpiando recursos BLE...
 2026-03-11 09:37:33,643 - src.bluetooth_ble_adapter - INFO - Limpieza BLE completa
+2026-04-05 16:24:27,082 - __main__ - INFO - ============================================================
+2026-04-05 16:24:27,083 - __main__ - INFO - Iniciando MedinaBluetooth v2.0
+2026-04-05 16:24:27,084 - __main__ - INFO - ============================================================
+2026-04-05 16:24:27,103 - __main__ - INFO - Modo: Bluetooth Classic (SPP/RFCOMM)
+2026-04-05 16:24:27,104 - src.bluetooth_manager - INFO - BluetoothManager inicializado
+2026-04-05 16:24:27,105 - src.data_handler - INFO - DataHandler inicializado
+2026-04-05 16:24:30,575 - src.ui.main_window - INFO - Ventana principal creada
+2026-04-05 16:24:30,576 - __main__ - INFO - Aplicación inicializada correctamente
+2026-04-05 16:24:30,577 - __main__ - INFO - ============================================================
+2026-04-05 16:24:30,577 - __main__ - INFO - Iniciando interfaz gráfica
+2026-04-05 16:24:37,001 - src.bluetooth_manager - INFO - Iniciando escaneo de dispositivos (duración: 8s)
+2026-04-05 16:24:47,319 - src.bluetooth_manager - INFO - Escaneo completado. Dispositivos encontrados: 7
+2026-04-05 16:24:54,201 - src.ui.main_window - INFO - Dispositivo seleccionado: Dispositivo desconocido - 48:1B:40:FD:3C:7E
+2026-04-05 16:24:55,714 - src.ui.main_window - INFO - Dispositivo seleccionado: Dispositivo desconocido - 48:1B:40:FD:3C:7E
+2026-04-05 16:24:56,139 - src.ui.main_window - INFO - Dispositivo seleccionado: Dispositivo desconocido - 48:1B:40:FD:3C:7E
+2026-04-05 16:24:59,331 - src.bluetooth_manager - INFO - Iniciando diagnóstico de Dispositivo desconocido (48:1B:40:FD:3C:7E)
+2026-04-05 16:25:06,700 - src.ui.main_window - INFO - Dispositivo seleccionado: Dispositivo desconocido - 48:1B:40:FD:3C:7E
+2026-04-05 16:25:07,779 - src.ui.main_window - INFO - Dispositivo seleccionado: Dispositivo desconocido - 48:1B:40:FD:3C:7E
+2026-04-05 16:25:12,943 - src.bluetooth_manager - WARNING - No se encontraron servicios para 48:1B:40:FD:3C:7E
+2026-04-05 16:25:16,523 - src.bluetooth_manager - INFO - Intentando conectar a 48:1B:40:FD:3C:7E en puerto 1
+2026-04-05 16:25:16,525 - src.bluetooth_manager - ERROR - Error inesperado al conectar: argument 2 (impossible<bad format char>)
+2026-04-05 16:25:19,222 - __main__ - INFO - Cerrando aplicación...
+2026-04-05 16:25:19,223 - __main__ - INFO - Aplicación cerrada
+2026-04-05 18:15:34,222 - __main__ - INFO - ============================================================
+2026-04-05 18:15:34,223 - __main__ - INFO - Iniciando MedinaBluetooth v2.0
+2026-04-05 18:15:34,223 - __main__ - INFO - ============================================================
+2026-04-05 18:15:34,225 - __main__ - INFO - Modo: Bluetooth Classic (SPP/RFCOMM)
+2026-04-05 18:15:34,226 - src.bluetooth_manager - INFO - BluetoothManager inicializado
+2026-04-05 18:15:34,226 - src.data_handler - INFO - DataHandler inicializado
+2026-04-05 18:15:36,363 - src.ui.main_window - INFO - Ventana principal creada
+2026-04-05 18:15:36,364 - __main__ - INFO - Aplicación inicializada correctamente
+2026-04-05 18:15:36,364 - __main__ - INFO - ============================================================
+2026-04-05 18:15:36,364 - __main__ - INFO - Iniciando interfaz gráfica
+2026-04-05 18:15:45,342 - src.bluetooth_manager - INFO - Iniciando escaneo de dispositivos (duración: 8s)
+2026-04-05 18:15:55,662 - src.bluetooth_manager - INFO - Escaneo completado. Dispositivos encontrados: 7
+2026-04-05 18:16:02,076 - __main__ - INFO - Cerrando aplicación...
+2026-04-05 18:16:02,077 - __main__ - INFO - Aplicación cerrada
